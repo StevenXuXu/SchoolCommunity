@@ -1,0 +1,31 @@
+{
+  "name": "zufecommunity",
+  "version": "1.0.0",
+  "description": "Final homework",
+  "main": "demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StevenXuXu/ZUFECommunity.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mongo",
+    "mongoose",
+    "express",
+    "html"
+  ],
+  "author": "StevenXuXu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StevenXuXu/ZUFECommunity/issues"
+  },
+  "homepage": "https://github.com/StevenXuXu/ZUFECommunity#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jquery": "^3.6.0"
+  }
+}
