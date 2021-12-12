@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>注册</title>
+<%-include('head.ejs')%>
+</head>
+<body>
+
+	<nav class="navbar navbar-light bg-light">
+		<span class="navbar-brand mb-0 h1"><img src="images/logo.jpg" height=64px width=64px> 校园社区</span>
+	</nav>
+	<div class="container-fluid">
+	<br><br>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				</div>
+				<div class="col-6">
+					<div class="card">
+						<h5 class="card-header">欢迎注册</h5>
+						<div class="card-body">
+							<form method="post" action="RegAction"
+						enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="exampleInputEmail1">用户名</label> <input
+								type="text" class="form-control" id="exampleInputEmail1"
+								aria-describedby="emailHelp" placeholder="输入用户名"
+								name="inputusername">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">密码</label> <input
+								type="text" class="form-control" id="exampleInputPassword1"
+								placeholder="输入密码" name="inputpassword">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">学号</label> <input
+								type="text" class="form-control" id="exampleInputPassword1"
+								placeholder="输入学号" name="num">
+						</div>
+
+						<div class="form-group">
+							<label>性别</label><br>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" id="customRadioInline1" name="sex"
+									class="custom-control-input" value="1"> <label
+									class="custom-control-label" for="customRadioInline1">男</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" id="customRadioInline2" name="sex"
+									class="custom-control-input" value="0"> <label
+									class="custom-control-label" for="customRadioInline2">女</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>生日</label>
+							<div class="col-1-3">
+								<input type="date" name="birth" class="form-control"
+									id="birthday" placeholder="生日" value="2000-01-01">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>专业</label><br>
+							<select class="form-control" name="major">
+								<option value="计算机">计算机</option>
+								<option value="电子商务">电子商务</option>
+								<option value="信管">信管</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">邮箱</label> <input
+								type="text" class="form-control" id="exampleInputPassword1"
+								placeholder="输入邮箱" name="email">
+						</div>
+						<div class="form-group">
+							<label>爱好</label><br>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox1" value="代码" name="hobbies"> <label
+									class="form-check-label" for="inlineCheckbox1">代码</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox2" value="运动" name="hobbies"> <label
+									class="form-check-label" for="inlineCheckbox2">运动</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox3" value="学习" name="hobbies"> <label
+									class="form-check-label" for="inlineCheckbox3">学习</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox3" value="音乐" name="hobbies"> <label
+									class="form-check-label" for="inlineCheckbox4">音乐</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>头像</label><br> <input type="file" name="photo">
+						</div>
+						<div class="form-group form-check">
+									<p>已有账号？<a href="login.ejs">现在登录！</a></p>
+								</div>
+						<button type="submit" class="btn btn-primary btn-lg btn-block">注册</button>
+					</form>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					
+
+				</div>
+				
+
+			</div>
+		</div>
+		
+		<br><br>
+		
+	</div>
+	<%-include('bottom.ejs')%>
+
+</body>
+</html>
