@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const multer  = require('multer')
 const path  = require('path')
-const User = require("./modules/user")
+const Service = require("./modules/service.js")
+const async = require('async');
+const { ServerResponse } = require('http')
 
 const port = 60531
 const headimg_default = "default.jpg"
@@ -40,30 +42,39 @@ const storage = multer.diskStorage({ //设置文件保存格式
 })
 const upload = multer({ storage: storage })
 
+var nowuser = null
+
 app.get('/', (req, res) => {
-    res.render('login.ejs')
+    res.render('login.ejs', {info: null})
 })
 
 app.get('/login.ejs', (req, res) => { //登陆
-    res.render('login.ejs')
+    res.render('login.ejs', {info: null})
 })
 
 app.post('/doLogin', (req, res) => {
     var username = req.body.inputusername
     var password = req.body.inputpassword
-    req.session.username = username
-    res.send(req.body)
+    
+    Service.User.findOne({"username": username, "password": password}, (err, user) =>{
+        if(err) return console.log(err)
+        if(!user) res.render("login.ejs", {info: "用户名或密码错误"})
+        else {
+            Service.Publish.find({}, (err, publishList) => {
+                if(err) return console.log(err)
+                req.session.user = user
+                res.render("home.ejs", {
+                    user: user,
+                    publishList: publishList
+                })
+            })
+        }
+    })
 })
 
 app.get('/logOut', (req, res) => { //退出
     req.session.username = ""
-    res.send('logout')
-})
-
-app.use('/haha', (req, res) => {
-    var username = req.session.username
-    if(!username) res.send('nonono')
-    else res.send(username)
+    res.render("login.ejs", {info: null})
 })
 
 app.get('/reg.ejs', (req, res) => { //注册
@@ -82,12 +93,38 @@ app.post('/doReg', upload.single('headimg'), (req, res) => {
     var headimg = headimg_default
     if(req.file != null) headimg = req.file.filename
     hobbies = hobbies + ""
-    var d = new Date()
-    var regtime = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()
-    User.insert(username, password, num, sex, birthday, major, email, hobbies, regtime, headimg)
-    res.send({
-        birthday: birthday,
-        regtime: regtime
+    var regtime = Service.GetTime()
+    Service.InsertUser(username, password, num, sex, birthday, major, email, hobbies, regtime, headimg)
+    res.render("login.ejs", {info: "注册成功！"})
+})
+
+app.get("/publish.ejs", (req, res) => {
+    var user = req.session.user
+    res.render("publish.ejs", {
+        user: user,
+        text: null,
+        info: null
+    })
+})
+
+app.post("/doPublish", upload.single('publishimg'), (req, res) => {
+    var user = req.session.user
+    var text = req.body.text
+    var publishimg = null
+    if(req.file != null) publishimg = req.file.filename
+    var time = Service.GetTime()
+    Service.InsertPublish(user.username, publishimg, text, time)
+    res.render("publish.ejs", {
+        user: user,
+        text: text,
+        info: "发布成功！"
+    })
+})
+
+app.get("/home.ejs", (req, res) => {
+    var user = req.session.user
+    res.render("home.ejs", {
+        user: user
     })
 })
 

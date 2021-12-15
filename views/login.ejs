@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>校园社区</title>
-<%-include('head.ejs')%>
+<%-include('header.ejs')%>
 <body>
 
 	<nav class="navbar navbar-light bg-light">
@@ -52,6 +52,7 @@
 					<div class="card">
 						<h5 class="card-header">欢迎登录</h5>
 						<div class="card-body">
+							<% if(info) { %><p style="color:red"><%=info%></p><% } %>
 							<form action="/doLogin" method="POST">
 								<div class="form-group">
 									<label for="exampleInputEmail1"><span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span> 账号</label><input
@@ -82,7 +83,7 @@
 		
 	</div>
 	</div>
-	<%-include('bottom.ejs')%>
+	<%-include('footer.ejs')%>
 
 </body>
 </html>

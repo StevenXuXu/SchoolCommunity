@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>主页</title>
+<%-include('header.ejs')%>
+</head>
+<body>
+	<%-include('nav.ejs')%>
+	<br>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				<%-include('left.ejs')%>
+			</div>
+			<div class="col-7">
+				
+				<c:if test="${page == 1}">
+				<div class="jumbotron jumbotron-fluid">
+					  <div class="container">
+					    <h1 class="display-4"><i class="fa fa-flag fa-x pull-left"></i>欢迎来到校园社区！</h1>
+					    
+					    <hr class="my-4">
+					    <p class="lead">热爱你的热爱</p>
+					  </div>
+					</div>
+					</c:if>
+				<div class="card">
+				  <div class="card-header">
+				    主页
+				  </div>
+				  <div class="card-body">
+					    
+					 <ul class="list-group list-group-flush">
+					  
+				  <c:forEach items="${publishList}" var="useri" varStatus="i">
+					<li class="list-group-item"><br>
+					<div class="media">
+						  <a href="UserInfo?username=${useri.username}"><img class="mr-3" src="${useri.headphoto}" alt="Generic placeholder image" height=64px width=64px></a>
+						  <div class="media-body">
+						    <a href="UserInfo?username=${useri.username}"><h5 class="mt-0">${useri.username}</h5></a>
+						    ${useri.word}
+						  
+						  <br>
+						  	<c:if test="${useri.img != null}">
+						  	
+								<div class="media mt-3">
+							        <a href="${useri.img}" target="_blank"><img src="${useri.img}" alt="Generic placeholder image" height=200px></a>
+							    </div>
+							</c:if>
+							<br>
+						  <p>${useri.getTimef()}</p>
+						  	<div><button type="button" id="btn${i.count}" class="btn btn-sm btn-outline-dark" name="${useri.id}">评论</button></div>
+						  	
+						  	<ul class="list-group list-group-flush">
+						  	<c:forEach items="${useri.CommentList()}" var="commi" varStatus="i">
+						  		<li class="list-group-item"><br>
+						  		<div class="media">
+								  <a href="UserInfo?username=${commi.username}"><img class="mr-3" src="${commi.headphoto}" alt="Generic placeholder image" height=48px width=48px></a>
+								  <div class="media-body">
+								    <a href="UserInfo?username=${commi.username}"><h5 class="mt-0">${commi.username}</h5></a>
+								    ${commi.comment}
+								  </div>
+								  <c:if test="${commi.username == username}">
+										<a type="button" class="btn btn-outline-danger" href="CommentDel?id=${commi.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+									</c:if>
+								</div>
+								</li>
+						  	</c:forEach>
+						  	</ul>
+						  	
+						  </div>
+						  <c:if test="${useri.username == username}">
+								<a type="button" class="btn btn-outline-danger" href="PublishDel?id=${useri.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+							</c:if>
+							</div>
+						
+					</li>
+				</c:forEach>
+				
+				</ul>
+				<div class="container">
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination">
+				  	<c:if test="${page > 1}">
+				    <li class="page-item"><a class="page-link" href="AllPublish?page=${page-1}">上一页</a></li>
+				    </c:if>
+				    <li class="page-item"><a class="page-link" href="#bottom">${page}</a></li>
+				    <c:if test="${page < mostpage}">
+				    <li class="page-item"><a class="page-link" href="AllPublish?page=${page+1}">下一页</a></li>
+				    </c:if>
+				  </ul>
+				</nav></div>
+				  </div>
+				</div>
+			
+			</div>
+			<div class="col-3">
+				<%-include('right.ejs')%>
+			</div>
+		</div>
+	</div>
+	<%-include('footer.ejs')%>
+	
+	<script type="text/javascript">
+        $(function(){
+            //页面加载完毕后开始执行的事件
+        	var btn1 = document.getElementById("btn1");
+            btn1.onclick = function (){
+                var id = btn1.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn1).removeAttr("disabled");
+                }
+            }
+            
+            var btn2 = document.getElementById("btn2");
+            btn2.onclick = function (){
+                var id = btn2.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn2).removeAttr("disabled");
+                }
+            }
+            
+            var btn3 = document.getElementById("btn3");
+            btn3.onclick = function (){
+                var id = btn3.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn3).removeAttr("disabled");
+                }
+            }
+            
+            var btn4 = document.getElementById("btn4");
+            btn4.onclick = function (){
+                var id = btn4.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn4).removeAttr("disabled");
+                }
+            }
+            
+            var btn5 = document.getElementById("btn5");
+            btn5.onclick = function (){
+                var id = btn5.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn5).removeAttr("disabled");
+                }
+            }
+            
+            var btn6 = document.getElementById("btn6");
+            btn6.onclick = function (){
+                var id = btn6.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn6).removeAttr("disabled");
+                }
+            }
+            
+            var btn7 = document.getElementById("btn7");
+            btn7.onclick = function (){
+                var id = btn7.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn7).removeAttr("disabled");
+                }
+            }
+            
+            var btn8 = document.getElementById("btn8");
+            btn8.onclick = function (){
+                var id = btn8.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn8).removeAttr("disabled");
+                }
+            }
+            
+            var btn9 = document.getElementById("btn9");
+            btn9.onclick = function (){
+                var id = btn9.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn9).removeAttr("disabled");
+                }
+            }
+            
+            var btn10 = document.getElementById("btn10");
+            btn10.onclick = function (){
+                var id = btn10.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn10).removeAttr("disabled");
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
