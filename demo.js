@@ -100,17 +100,6 @@ app.post('/doLogin', (req, res) => {
     })
 })
 
-app.use((req, res, next) => {
-    var user = req.session.user
-    if(user == null) res.render('login.ejs', {info: null})
-    else next()
-})
-
-app.get('/logOut', (req, res) => { //退出
-    req.session.username = ""
-    res.render("login.ejs", {info: null})
-})
-
 app.get('/reg.ejs', (req, res) => { //注册
     res.render('reg.ejs')
 })
@@ -132,6 +121,17 @@ app.post('/doReg', upload.single('headimg'), (req, res) => {
     var regtime = Service.GetRegTime()
     Service.InsertUser(username, password, num, sex, birthday, major, email, hobbies, regtime, headimg)
     res.render("login.ejs", {info: "注册成功！"})
+})
+
+app.use((req, res, next) => {
+    var user = req.session.user
+    if(user == null) res.render('login.ejs', {info: null})
+    else next()
+})
+
+app.get('/logOut', (req, res) => { //退出
+    req.session.username = ""
+    res.render("login.ejs", {info: null})
 })
 
 app.get("/publish.ejs", (req, res) => {
