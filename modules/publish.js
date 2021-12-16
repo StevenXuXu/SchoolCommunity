@@ -4,7 +4,7 @@ const PublishSchema = {
     username: String,
     img: String,
     text: String,
-    time: Date
+    time: String
 }
 
 const Publish = mongoose.model("Publish", PublishSchema, "publishes")

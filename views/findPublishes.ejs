@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>主页</title>
+<%-include('header.ejs')%>
+</head>
+<body>
+	<%-include('nav.ejs')%>
+	<br>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				<%-include('left.ejs')%>
+			</div>
+			<div class="col-7">
+				
+				<c:if test="${page == 1}">
+				<div class="jumbotron jumbotron-fluid">
+					  <div class="container">
+					    <h1 class="display-4"><i class="fa fa-flag fa-x pull-left"></i>欢迎来到校园社区！</h1>
+					    
+					    <hr class="my-4">
+					    <p class="lead">热爱你的热爱</p>
+					  </div>
+					</div>
+					</c:if>
+				<div class="card">
+				  <div class="card-header">
+				    TA发布的
+				  </div>
+				  <div class="card-body">
+					    
+					 <ul class="list-group list-group-flush">
+					
+                    <% for(var i = 0; i < publishList.length; i++) { %>
+                        <% if(publishList[i].username == findByUser) { %>
+					<li class="list-group-item"><br>
+					<div class="media">
+						  <a href="userInfo?username=<%=publishList[i].username%>"><img class="mr-3" src="upload/<%=publishList[i].user[0].headimg%>" alt="Generic placeholder image" height=64px width=64px></a>
+						  <div class="media-body">
+						    <a href="userInfo?username=<%=publishList[i].username%>"><h5 class="mt-0"><%=publishList[i].username%></h5></a>
+						    <%=publishList[i].text%>
+						  
+						  <br>
+						  	<% if(publishList[i].img != null){ %>
+						  	
+								<div class="media mt-3">
+							        <a href="upload/<%=publishList[i].img%>" target="_blank"><img src="upload/<%=publishList[i].img%>" alt="Generic placeholder image" height=200px></a>
+							    </div>
+							<% } %>
+							<br>
+						  <p><%=publishList[i].time%></p>
+						  	<div><button type="button" id="btn<%=i%>" class="btn btn-sm btn-outline-dark" name="<%= publishList[i]._id %>">评论</button></div>
+                            
+						  	
+						  	<ul class="list-group list-group-flush">
+                            <% for(var j = 0; j < publishList[i].comment.length; j++) {%>
+						  		<li class="list-group-item"><br>
+						  		<div class="media">
+								  <a href="userInfo?username=<%=publishList[i].comment[j].username%>"><img class="mr-3" src="upload/<%=publishList[i].comment[j].headimg%>" alt="Generic placeholder image" height=48px width=48px></a>
+								  <div class="media-body">
+								    <a href="userInfo?username=<%=publishList[i].comment[j].username%>"><h5 class="mt-0"><%=publishList[i].comment[j].username%></h5></a>
+								    <%=publishList[i].comment[j].comment%>
+								  </div>
+								  <% if(publishList[i].comment[j].username == user.username) { %>
+										<a type="button" class="btn btn-outline-danger" href="CommentDel?id=${commi.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+									<% } %>
+								</div>
+								</li>
+						  	<% } %>
+						  	</ul>
+						  	
+						  </div>
+						  <% if(publishList[i].username == user.username) { %>
+								<a type="button" class="btn btn-outline-danger" href="PublishDel?id=${useri.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+                            <% } %>
+							</div>
+						
+					</li>
+                    <%}%>
+				<%}%>
+				
+				</ul>
+				
+				  </div>
+				</div>
+			
+			</div>
+			<div class="col-3">
+				<%-include('right.ejs')%>
+			</div>
+		</div>
+	</div>
+	<%-include('footer.ejs')%>
+
+</body>
+</html>

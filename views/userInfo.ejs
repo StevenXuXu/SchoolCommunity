@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户信息</title>
+<%-include('header.ejs')%>
+</head>
+<body>
+
+	<%-include('nav.ejs')%>
+	<br>
+	<div class="container">
+		<div class="row">
+			<br>
+			<div class="col-2">
+				<%-include('left.ejs')%>
+    </div>
+			<div class="col-7">
+				<div class="container">
+					<div class="jumbotron">
+					
+					<div class="card bg-dark text-white">
+					  <img class="card-img" src="images/userbg.jpg" alt="Card image" height=270px width=100px>
+					  <div class="card-img-overlay">
+					  <div class="container">
+						  <div class="row">
+						    <div class="col-4">
+						    </div>
+						    <div class="col-4">
+						    <div class="container">
+						    	<a href="upload/<%=lookUser.headimg%>" target="_blank"><img src="upload/<%=lookUser.headimg%>" height=96px width=96px></a>
+						      <h5 class="card-title"><%=lookUser.username%></h5>
+						      
+					<a class="btn btn-info" href="findByUser?username=<%=lookUser.username%>" role="button">TA发布的</a>
+						    </div>
+						    </div>
+						    <div class="col-4">
+						    </div>
+						  </div>
+						</div>
+					    
+					  </div>
+					</div>
+					
+					
+					</p><hr class="my-4">
+					<p class="lead">学号: <%=lookUser.num%></p><hr class="my-4">
+					<p class="lead">性别: <%=lookUser.sex%></p><hr class="my-4">
+					<p class="lead">生日: <%=lookUser.birthday%></p><hr class="my-4">
+					<p class="lead">专业: <%=lookUser.major%></p><hr class="my-4">
+					<p class="lead">邮箱: <%=lookUser.email%></p><hr class="my-4">
+					<p class="lead">爱好: <%=lookUser.hobbies%></p><hr class="my-4">
+					<p class="lead">注册时间: <%=lookUser.regtime%></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-3">
+				<%-include('right.ejs')%>
+			</div>
+		</div>
+	</div>
+	<%-include('footer.ejs')%>
+
+</body>
+</html>

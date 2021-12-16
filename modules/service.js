@@ -36,13 +36,43 @@ function InsertPublish(username, img, text, time) {
     })
 }
 
-function GetTime() {
+function InsertComment(p_id, username, headimg, comment, time) {
+    var comment = new Comment({
+        p_id: p_id,
+        username: username,
+        headimg: headimg,
+        comment: comment,
+        time: time
+    })
+    comment.save((err) => {
+        if(err) return console.log(err)
+        console.log("插入comment成功")
+    })
+}
+
+function GetRegTime() {
+    var d = new Date()
+    var time = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()
+    return time
+}
+
+function GetPublishTime() {
     var d = new Date()
     var time = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
     return time
 }
 
-module.exports = {User, Publish, InsertUser, InsertPublish, GetTime}
+function calMostPage(sum) {
+    var most = 0
+    while(sum > 10) {
+        sum -= 10
+        most++
+    }
+    if(sum > 0) most++
+    return most
+}
+
+module.exports = {User, Publish, Comment, InsertUser, InsertPublish, GetRegTime, GetPublishTime, InsertComment, calMostPage}
 
 /*
 async.series({

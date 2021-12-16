@@ -9,7 +9,7 @@ const UserSchema = {
     major: String,
     email: String,
     hobbies: String,
-    regtime: Date,
+    regtime: String,
     headimg: String
 }
 

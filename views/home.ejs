@@ -33,63 +33,64 @@
 				  <div class="card-body">
 					    
 					 <ul class="list-group list-group-flush">
-					  
-				  <c:forEach items="${publishList}" var="useri" varStatus="i">
+					
+                    <% for(var i = (page - 1) * 10; i < publishList.length && i <= page + 10; i++) {%>
 					<li class="list-group-item"><br>
 					<div class="media">
-						  <a href="UserInfo?username=${useri.username}"><img class="mr-3" src="${useri.headphoto}" alt="Generic placeholder image" height=64px width=64px></a>
+						  <a href="userInfo?username=<%=publishList[i].username%>"><img class="mr-3" src="upload/<%=publishList[i].user[0].headimg%>" alt="Generic placeholder image" height=64px width=64px></a>
 						  <div class="media-body">
-						    <a href="UserInfo?username=${useri.username}"><h5 class="mt-0">${useri.username}</h5></a>
-						    ${useri.word}
+						    <a href="userInfo?username=<%=publishList[i].username%>"><h5 class="mt-0"><%=publishList[i].username%></h5></a>
+						    <%=publishList[i].text%>
 						  
 						  <br>
-						  	<c:if test="${useri.img != null}">
+						  	<% if(publishList[i].img != null){ %>
 						  	
 								<div class="media mt-3">
-							        <a href="${useri.img}" target="_blank"><img src="${useri.img}" alt="Generic placeholder image" height=200px></a>
+							        <a href="upload/<%=publishList[i].img%>" target="_blank"><img src="upload/<%=publishList[i].img%>" alt="Generic placeholder image" height=200px></a>
 							    </div>
-							</c:if>
+							<% } %>
 							<br>
-						  <p>${useri.getTimef()}</p>
-						  	<div><button type="button" id="btn${i.count}" class="btn btn-sm btn-outline-dark" name="${useri.id}">评论</button></div>
+						  <p><%=publishList[i].time%></p>
+						  	<div><button type="button" id="btn<%=i%>" class="btn btn-sm btn-outline-dark" name="<%= publishList[i]._id %>">评论</button></div>
+                            
 						  	
 						  	<ul class="list-group list-group-flush">
-						  	<c:forEach items="${useri.CommentList()}" var="commi" varStatus="i">
+                            <% for(var j = 0; j < publishList[i].comment.length; j++) {%>
 						  		<li class="list-group-item"><br>
 						  		<div class="media">
-								  <a href="UserInfo?username=${commi.username}"><img class="mr-3" src="${commi.headphoto}" alt="Generic placeholder image" height=48px width=48px></a>
+								  <a href="userInfo?username=<%=publishList[i].comment[j].username%>"><img class="mr-3" src="upload/<%=publishList[i].comment[j].headimg%>" alt="Generic placeholder image" height=48px width=48px></a>
 								  <div class="media-body">
-								    <a href="UserInfo?username=${commi.username}"><h5 class="mt-0">${commi.username}</h5></a>
-								    ${commi.comment}
+								    <a href="userInfo?username=<%=publishList[i].comment[j].username%>"><h5 class="mt-0"><%=publishList[i].comment[j].username%></h5></a>
+								    <%=publishList[i].comment[j].comment%>
 								  </div>
-								  <c:if test="${commi.username == username}">
-										<a type="button" class="btn btn-outline-danger" href="CommentDel?id=${commi.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
-									</c:if>
+								  <% if(publishList[i].comment[j].username == user.username) { %>
+										<a type="button" class="btn btn-outline-danger" href="delComment?id=<%=publishList[i].comment[j]._id%>"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+									<% } %>
 								</div>
 								</li>
-						  	</c:forEach>
+						  	<% } %>
 						  	</ul>
 						  	
 						  </div>
-						  <c:if test="${useri.username == username}">
-								<a type="button" class="btn btn-outline-danger" href="PublishDel?id=${useri.id}"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
-							</c:if>
+						  <% if(publishList[i].username == user.username) { %>
+								<a type="button" class="btn btn-outline-danger" href="delPublish?id=<%=publishList[i]._id%>"><i class="fa fa-trash-o" aria-hidden="true"></i> 删除</a>
+                            <% } %>
 							</div>
 						
 					</li>
-				</c:forEach>
+				<%}%>
 				
 				</ul>
 				<div class="container">
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
-				  	<c:if test="${page > 1}">
-				    <li class="page-item"><a class="page-link" href="AllPublish?page=${page-1}">上一页</a></li>
-				    </c:if>
-				    <li class="page-item"><a class="page-link" href="#bottom">${page}</a></li>
-				    <c:if test="${page < mostpage}">
-				    <li class="page-item"><a class="page-link" href="AllPublish?page=${page+1}">下一页</a></li>
-				    </c:if>
+				  	<% if(page > 1) { %>
+				    <li class="page-item"><a class="page-link" href="home?page=<%= Number(page) - 1%>">上一页</a></li>
+				    <% } %>
+				    <li class="page-item"><a class="page-link" href="#bottom"><%=page%></a></li>
+				    <% if(page < mostPage) { %>
+				    <li class="page-item"><a class="page-link" href="home?page=<%= Number(page) + 1 %>">下一页</a></li>
+				    <% } %>
 				  </ul>
 				</nav></div>
 				  </div>
@@ -106,11 +107,23 @@
 	<script type="text/javascript">
         $(function(){
             //页面加载完毕后开始执行的事件
-        	var btn1 = document.getElementById("btn1");
+            var btn0 = document.getElementById("btn0");
+            btn0.onclick = function (){
+                var id = btn0.name;
+                $(this).attr('disabled', 1);
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                var btncancel = document.getElementById("btncancel");
+                btncancel.onclick = function (){
+                    $(".comment_textarea1").remove();
+                    $(btn0).removeAttr("disabled");
+                }
+            }
+
+            var btn1 = document.getElementById("btn1");
             btn1.onclick = function (){
                 var id = btn1.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -122,7 +135,7 @@
             btn2.onclick = function (){
                 var id = btn2.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -134,7 +147,7 @@
             btn3.onclick = function (){
                 var id = btn3.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -146,7 +159,7 @@
             btn4.onclick = function (){
                 var id = btn4.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -158,7 +171,7 @@
             btn5.onclick = function (){
                 var id = btn5.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -170,7 +183,7 @@
             btn6.onclick = function (){
                 var id = btn6.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -182,7 +195,7 @@
             btn7.onclick = function (){
                 var id = btn7.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -194,7 +207,7 @@
             btn8.onclick = function (){
                 var id = btn8.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
@@ -206,23 +219,11 @@
             btn9.onclick = function (){
                 var id = btn9.name;
                 $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
+                $(this).parent().append("<div class=comment_textarea1><form method=post action=doComment?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
                 var btncancel = document.getElementById("btncancel");
                 btncancel.onclick = function (){
                     $(".comment_textarea1").remove();
                     $(btn9).removeAttr("disabled");
-                }
-            }
-            
-            var btn10 = document.getElementById("btn10");
-            btn10.onclick = function (){
-                var id = btn10.name;
-                $(this).attr('disabled', 1);
-                $(this).parent().append("<div class=comment_textarea1><form method=post action=CommentAdd?id="+ id +"><textarea cols='50' rows='4' name='comment'></textarea><br/><button type=submit id=btn class=btn>评论</button><button id=btncancel class=btn>取消</button></form></div>");
-                var btncancel = document.getElementById("btncancel");
-                btncancel.onclick = function (){
-                    $(".comment_textarea1").remove();
-                    $(btn10).removeAttr("disabled");
                 }
             }
         });

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户信息</title>
+<%-include('header.ejs')%>
+</head>
+<body>
+
+	<%-include('nav.ejs')%>
+	<br>
+	<div class="container">
+		<div class="row">
+			<br>
+			<div class="col-2">
+				<%-include('left.ejs')%>
+    </div>
+			<div class="col-7">
+				<div class="card">
+				  <div class="card-header">
+				    用户数：<%=userList.length%>
+				  </div>
+				  <div class="card-body">
+					    
+					 <ul class="list-group list-group-flush">
+					  
+				  <% for(var i = 0; i < userList.length; i++) { %>
+					<li class="list-group-item"><br>
+					<div class="media">
+						  <a href="userInfo?username=<%=userList[i].username%>"><img class="mr-3" src="upload/<%=userList[i].headimg%>" alt="Generic placeholder image" height=64px width=64px></a>
+						  <div class="media-body">
+						    <a href="userInfo?username=<%=userList[i].username%>"><h5 class="mt-0"><%=userList[i].username%></h5></a>
+						    
+						  </div>
+						</div>
+					</li>
+				<% } %>
+				</ul>
+				
+				  </div>
+				</div>
+			</div>
+			<div class="col-3">
+				<%-include('right.ejs')%>
+			</div>
+		</div>
+	</div>
+	<%-include('footer.ejs')%>
+
+</body>
+</html>
