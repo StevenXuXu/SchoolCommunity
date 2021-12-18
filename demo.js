@@ -18,6 +18,7 @@ const headimg_default = "default.jpg"
 
 app.set('view engine', 'ejs')//将ejs集成到express中
 
+app.use(express.static("static/images"))
 app.use(express.static('static'))
 app.use(express.static('node_modules'))
 app.use(bodyParser.urlencoded({ extended: true }))
