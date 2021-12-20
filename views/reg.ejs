@@ -21,6 +21,7 @@
 					<div class="card">
 						<h5 class="card-header">欢迎注册</h5>
 						<div class="card-body">
+							<% if(info) { %><p style="color:red"><%=info%></p><% } %>
 							<form method="post" action="/doReg" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="exampleInputEmail1">用户名</label> <input

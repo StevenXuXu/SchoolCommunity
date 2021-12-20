@@ -102,7 +102,7 @@ app.post('/doLogin', (req, res) => {
 })
 
 app.get('/reg.ejs', (req, res) => { //注册
-    res.render('reg.ejs')
+    res.render('reg.ejs', {info: null})
 })
 
 app.post('/doReg', upload.single('headimg'), (req, res) => {
@@ -120,8 +120,15 @@ app.post('/doReg', upload.single('headimg'), (req, res) => {
     if(req.file != null) headimg = req.file.filename
     hobbies = hobbies + ""
     var regtime = Service.GetRegTime()
-    Service.InsertUser(username, password, num, sex, birthday, major, email, hobbies, regtime, headimg)
-    res.render("login.ejs", {info: "注册成功！"})
+    Service.User.find({"username": username}, (err, user) => {
+        if(user.length == 0) {
+            Service.InsertUser(username, password, num, sex, birthday, major, email, hobbies, regtime, headimg)
+            res.render("login.ejs", {info: "注册成功！"})
+        }
+        else {
+            res.render("reg.ejs", {info: "该用户已存在！"})
+        }
+    })
 })
 
 app.use((req, res, next) => {
