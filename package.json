@@ -1,5 +1,5 @@
 {
-  "name": "zufecommunity",
+  "name": "schoolcommunity",
   "version": "1.0.0",
   "description": "Final homework",
   "main": "demo.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StevenXuXu/ZUFECommunity.git"
+    "url": "git+https://github.com/StevenXuXu/SchoolCommunity.git"
   },
   "keywords": [
     "nodejs",
@@ -20,9 +20,9 @@
   "author": "StevenXuXu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/StevenXuXu/ZUFECommunity/issues"
+    "url": "https://github.com/StevenXuXu/SchoolCommunity/issues"
   },
-  "homepage": "https://github.com/StevenXuXu/ZUFECommunity#readme",
+  "homepage": "https://github.com/StevenXuXu/SchoolCommunity#readme",
   "dependencies": {
     "async": "^3.2.2",
     "cookie-parser": "^1.4.6",
