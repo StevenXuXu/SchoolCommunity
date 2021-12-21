@@ -50,15 +50,20 @@ function InsertComment(p_id, username, headimg, comment, time) {
     })
 }
 
+function trans(x) {
+    if(x < 10) x = "0" + x;
+    return x
+}
+
 function GetRegTime() {
     var d = new Date()
-    var time = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()
+    var time = trans(d.getFullYear()) + "-" + trans(d.getMonth()) + "-" + trans(d.getDate())
     return time
 }
 
 function GetPublishTime() {
     var d = new Date()
-    var time = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+    var time = trans(d.getFullYear()) + "-" + trans(d.getMonth()) + "-" + trans(d.getDate()) + " " + trans(d.getHours()) + ":" + trans(d.getMinutes()) + ":" + trans(d.getSeconds())
     return time
 }
 
