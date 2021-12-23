@@ -99,6 +99,12 @@ SchoolCommunity
   └── user.js
   ```
 
+  - comment.js：封装了评论表的代码
+  - db.js：封装了连接数据库的代码
+  - publish.js：封装了发布的信息表的代码
+  - service.js：封装了各类对数据库进行操作的函数以及获得时间函数等等的代码
+  - user.js：封装了用户信息表的代码
+
 - node_modules：存放所有导入的包文件
 
 - package.json, package-lock.json：所有导入的包的信息
@@ -112,6 +118,9 @@ SchoolCommunity
   ├── images
   └── upload
   ```
+
+  - images：存放服务器的图片资源
+  - upload：存放用户上传的图片
 
 - views：存放所有ejs页面
 
@@ -311,7 +320,8 @@ SchoolCommunity
 
 ### 2021-12-12
 
-- 加入login.ejs以及reg.ejs页面
+- 加入login.ejs界面
+- 加入reg.ejs界面
 
 ### 2021-12-13
 
@@ -338,6 +348,7 @@ SchoolCommunity
 ### 2021-12-18
 
 - 加入了页面图标
+- 美化界面
 
 ### 2021-12-21
 
